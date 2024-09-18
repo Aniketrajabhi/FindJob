@@ -1,6 +1,12 @@
 package com.aniket.findjob.job;
+import com.aniket.findjob.company.Company;
+import jakarta.persistence.*;
 
+@Entity
+//@Table(name = "job_table") //to change name of the table in DB
 public class Job {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // to remove allocation of values of primary ID(id) on our own
     private Long id;
     private String title;
     private String description;
@@ -8,13 +14,29 @@ public class Job {
     private String maxSalary;
     private String Location;
 
-    public Job(Long id, String title, String description, String minSalary, String maxSalary, String location) {
+    @ManyToOne
+    private Company company;
+
+    //default no argument constructor for JPA method
+    public Job() {
+    }
+
+    public Job(Long id, String title, String description, String minSalary, String maxSalary, String location, Company company) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.minSalary = minSalary;
         this.maxSalary = maxSalary;
         Location = location;
+        this.company = company;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public Long getId() {
